@@ -18,12 +18,12 @@
 }:
 
 let
-  version = "0.1.0-rc.5";
+  version = "0.1.0-rc.7";
   pnpmDeps = fetchPnpmDeps {
     pname = "deepseek-harness";
     inherit version src;
     fetcherVersion = 4;
-    hash = "sha256-aySHq0ywTMM5q7YuGHZrV3yQE3bwppgGfWH3wRnHCXk=";
+    hash = "sha256-zmlWt5HYvzkCnCDD5X/psgfGPbRAUwO0p4qDtI5+R5M=";
   };
 in
 stdenv.mkDerivation {

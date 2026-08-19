@@ -20,7 +20,7 @@
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   inputs.dsh = {
-    url = "github:deepseek-ai/deepseek-harness/47f943859bef60e4160492346772ded9b24f765a";
+    url = "github:deepseek-ai/deepseek-harness/99f6f02fecdb7dff40c3fbc9470f5907c29f74ca";
     flake = false;
   };
 
