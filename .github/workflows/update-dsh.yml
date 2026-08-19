@@ -111,7 +111,12 @@ jobs:
         if: steps.check.outputs.need_build == 'true'
         run: |
           set -uo pipefail
-          PKG=".#packages.aarch64-linux.dsh"
+          case "$(uname -m)" in
+            x86_64)  SYSTEM="x86_64-linux" ;;
+            aarch64) SYSTEM="aarch64-linux" ;;
+            *) echo "unsupported runner arch: $(uname -m)" >&2; exit 1 ;;
+          esac
+          PKG=".#packages.${SYSTEM}.dsh"
           if ! nix build "${PKG}" 2> build.log; then
             if ! grep -q "hash mismatch" build.log; then
               cat build.log
@@ -131,7 +136,14 @@ jobs:
 
       - name: Flake check
         if: steps.check.outputs.need_build == 'true'
-        run: nix flake check --system x86_64-linux
+        run: |
+          set -euo pipefail
+          case "$(uname -m)" in
+            x86_64)  SYSTEM="x86_64-linux" ;;
+            aarch64) SYSTEM="aarch64-linux" ;;
+            *) echo "unsupported runner arch: $(uname -m)" >&2; exit 1 ;;
+          esac
+          nix flake check --system "${SYSTEM}"
 
       - name: Commit overlay and push
         if: steps.check.outputs.need_build == 'true'
