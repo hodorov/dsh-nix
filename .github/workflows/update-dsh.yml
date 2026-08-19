@@ -33,9 +33,10 @@ jobs:
           fetch-depth: 0 # full history: the packaging merge needs shared ancestry
 
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer@main
+        uses: DeterminateSystems/nix-installer-action@a7ad9c4f0c65208097f4d34f3cfa1913b80cce5c # main
         with:
-          extra-nix-config: |
+          determinate: false # plain nixpkgs nix, no Determinate Nix/FlakeHub
+          extra-conf: |
             experimental-features = nix-command flakes
 
       - name: Git identity
