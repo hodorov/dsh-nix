@@ -19,6 +19,13 @@
 
 let
   version = "0.1.0-rc.7";
+  # rc.8+ embeds the source commit into client artifacts by shelling out to
+  # `git rev-parse HEAD`.  The nix build is a gitless tarball with no `git`
+  # in the environment, so we feed the pinned rev instead — the dsh build
+  # script honours DSH_CLIENT_COMMIT_HASH and skips the git call entirely.
+  dshCommitHash = if src ? rev
+    then src.rev
+    else throw "dsh.nix: source has no .rev to embed as DSH_CLIENT_COMMIT_HASH";
   pnpmDeps = fetchPnpmDeps {
     pname = "deepseek-harness";
     inherit version src;
@@ -32,6 +39,7 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ nodejs pnpm pnpmConfigHook makeBinaryWrapper python3 node-gyp ];
   inherit pnpmDeps;
+  env.DSH_CLIENT_COMMIT_HASH = dshCommitHash;
 
   buildPhase = ''
     runHook preBuild
