@@ -18,7 +18,7 @@
 }:
 
 let
-  version = "0.1.0-rc.8";
+  version = "0.1.1-rc.2";
   # rc.8+ embeds the source commit into client artifacts by shelling out to
   # `git rev-parse HEAD`.  The nix build is a gitless tarball with no `git`
   # in the environment, so we feed the pinned rev instead — the dsh build
